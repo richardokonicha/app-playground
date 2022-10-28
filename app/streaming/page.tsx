@@ -1,40 +1,28 @@
-import { SkeletonCard } from '@/ui/SkeletonCard';
+import products from '@/lib/data/products';
 import { Suspense } from 'react';
-import Description from './description';
-import ProductHeader from './product-header';
-import BuyNow from './buy-now';
+import { Product } from './Product';
+import {
+  RecommendedProducts,
+  RecommendedProductsSkeleton,
+} from './RecommendedProducts';
+import { Reviews, ReviewsSkeleton } from './Reviews';
 
-export default function Posts() {
+export default async function Posts() {
   return (
-    <section>
-      <div className="text-white">
-        <div className="space-y-4">
-          <div className="flex space-x-6">
-            <div className="w-full space-y-4">
-              <Suspense fallback={<SkeletonCard isLoading={true} />}>
-                {/* @ts-ignore */}
-                <ProductHeader />
-              </Suspense>
-              <Suspense fallback={<SkeletonCard isLoading={true} />}>
-                {/* @ts-ignore */}
-                <Description />
-              </Suspense>
-            </div>
-            <div className="min-w-[250px]">
-              <Suspense
-                fallback={
-                  <div className="h-40 w-full ">
-                    <SkeletonCard isLoading={true} />
-                  </div>
-                }
-              >
-                {/* @ts-ignore */}
-                <BuyNow />
-              </Suspense>
-            </div>
-          </div>
-        </div>
+    <div className="space-y-16">
+      <div>
+        <Product product={products[0]} />
       </div>
-    </section>
+
+      <Suspense fallback={<RecommendedProductsSkeleton />}>
+        {/* @ts-ignore */}
+        <RecommendedProducts />
+      </Suspense>
+
+      <Suspense fallback={<ReviewsSkeleton />}>
+        {/* @ts-ignore */}
+        <Reviews />
+      </Suspense>
+    </div>
   );
 }
